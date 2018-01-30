@@ -1,0 +1,1 @@
+# visual-asset-manager
