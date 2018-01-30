@@ -1,0 +1,38 @@
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true,
+      }
+  },
+  "globals": {
+    "err": true,
+    "req": true,
+    "res": true,
+    "next": true
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true,
+    "mocha": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/prefer-stateless-function": [0, { "ignorePureComponents": <ignorePureComponents> }],
+    "no-console": [0],
+  },
+  "ecmaFeatures": {
+    "modules": true,
+    "impliedStrict": true,
+    "experimentalObjectRestSpread": true
+  },
+  "extends": "airbnb",
+  "plugins": [
+    "react",
+    "react-native",
+    "jsx-ally",
+    "import",
+  ],
+}
