@@ -7,7 +7,6 @@ const app = module.exports = require('express')();
 const fileDataRouter = require(__dirname + '/../fileData/file-routes');
 const assetUploader = require(__dirname + '/../visualAssets/visual-asset-route');
 
-const userRouter = require(__dirname + '/../user/user-routes');
 const authRouter = require(__dirname + '/../user/auth-routes');
 
 app.use(morgan('dev'));
@@ -21,7 +20,6 @@ app.use(
 app.use('/api/v1', fileDataRouter);
 app.use('/api/v1', assetUploader);
 app.use('/api/v1', authRouter);
-app.use('/api/v1', userRouter);
 
 app.use((err, req, res, next) => {
   console.log(err.status, err.message);
