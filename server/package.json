@@ -1,7 +1,7 @@
 {
-  "name": "lab-13-object-relational-mapping",
+  "name": "visual-manager-server",
   "version": "1.0.0",
-  "description": "![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) 16: Basic Auth ===",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node index.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meganrm/lab-13-object-relational-mapping.git"
+    "url": "git+https://github.com/meganrm/visual-asset-manager.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/meganrm/lab-13-object-relational-mapping/issues"
+    "url": "https://github.com/meganrm/visual-asset-manager/issues"
   },
-  "homepage": "https://github.com/meganrm/lab-13-object-relational-mapping#readme",
+  "homepage": "https://github.com/meganrm/visual-asset-manager#readme",
   "dependencies": {
     "aws-sdk": "^2.188.0",
     "bcrypt": "^1.0.3",
