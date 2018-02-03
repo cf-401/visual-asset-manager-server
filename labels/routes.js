@@ -7,13 +7,14 @@ const ServerError = require('../lib/error');
 const bearerAuth = require('../lib/bearer-auth');
 const userHandler = require('../user/user-auth-middleware');
 
-const Labels = require('./model');
+const Label = require('./model');
 
 const labelRouter = module.exports = express.Router();
 
 labelRouter.get('/asset_labels',
   (req, res, next) => {
-    Labels.find({})
+    console.log('getting labels');
+    Label.find({})
       .then(labels => {
         res.status(200).send(labels);
       })
@@ -29,9 +30,9 @@ labelRouter.post('/asset_labels',
   (req, res, next) => {
     req.body.userId = req.user._id;
     console.log('post, req.body', req.body);
-    let newLabel = new Labels(req.body);
+    let newLabel = new Label(req.body);
     console.log('__newLabel___', newLabel);
-    Labels.save()
+    newLabel.save()
       .then(data => res.status(200).send(data))
       .catch((err) => {
         console.log(err);
@@ -46,7 +47,7 @@ labelRouter.delete(
   jsonParser,
   (req, res, next) => {
     console.log(req.params);
-    Labels.find({_id: req.params.id})
+    Label.find({_id: req.params.id})
       .then( () => {
         Labels.remove({_id: req.params.id})
           .then(() => res.status(200).send('label successfully deleted'))
