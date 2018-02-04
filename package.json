@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "mongo": "mongod --dbpath=./db --smallfiles",
-    "test": "jest -i --coverage",
+    "test": "jest -i --forceExit",
+    "test-coverage": "jest -i --coverage",
     "lint": "eslint --fix ."
   },
   "repository": {

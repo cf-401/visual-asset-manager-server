@@ -25,7 +25,6 @@ authRouter.get(
   userHandler.signIn
 );
 
-
 authRouter.get(
   '/validate',
   logger,

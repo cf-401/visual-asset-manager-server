@@ -48,20 +48,22 @@ userHandler.signIn = (req, res, next) => {
 userHandler.createUser = (req, res, next) => {
   const password = req.body.password;
   delete req.body.password;
-
+  console.log(req.body);
   (new User(req.body)).generateHash(password)
     .then((user) => {
       user.save()
         .then(user => {
           let token = user.generateToken();
+          console.log('saved and got token');
+
           res.cookie('auth', token, { maxAge: 10000000 });
-          res.send({user,token});
+          res.send({user, token});
         })
         .catch(err => {
-          next({statusCode: 400, message: err.message});
+          next({statusCode: 400, message: `error saving user ${err.message}`});
         });
     })
-    .catch(err => next({statusCode: 400, message: err.message}));
+    .catch(err => next({statusCode: 400, message: `error getting hash ${err.message}`}));
 };
 
 userHandler.validate = (req, res, next) => {
