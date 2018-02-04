@@ -59,10 +59,13 @@ fileRouter.patch(
   userHandler.getUserById,
   jsonParser,
   (req, res, next) => {
-
     let newFileData = new FileData(req.body);
-
-    delete newFileData._id;
+    newFileData._id = null;
+    const fileDataUser = newFileData.userId._id;
+    const requestUser = req.user._id;
+    if (fileDataUser !== requestUser.toString()) {
+      return next({statusCode: 403, message: 'you dont have authority to change someone elses file'});
+    }
     FileData.findOneAndUpdate({_id : req.params.id}, {$set:newFileData})
       .then(() => res.status(200).send('success!'))
       .catch((err) => {
@@ -79,6 +82,11 @@ fileRouter.put(
     let newFileData = Object.assign({}, req.body);
     newFileData._id = null;
     delete newFileData._id;
+    const fileDataUser = newFileData.userId._id;
+    const requestUser = req.user._id;
+    if (fileDataUser !== requestUser.toString()) {
+      return next({statusCode: 403, message: 'you dont have authority to change someone elses file'});
+    }
     FileData.findOneAndUpdate({_id: req.body._id}, newFileData)
       .then(() => {
         res.status(200).send('success!');
@@ -94,12 +102,13 @@ fileRouter.delete(
   userHandler.getUserById,
   jsonParser,
   (req, res, next) => {
-    console.log(req.params);
     FileData.find({_id: req.params.id})
-      .then( () => {
-        // if (file.user != req.user._id) {
-        //   return next({statusCode: 403, message: 'you dont have authority to delete someone elses file'});
-        // }
+      .then( (file) => {
+        const fileDataUser = file.userId._id;
+        const requestUser = req.user._id;
+        if (fileDataUser !== requestUser.toString()) {
+          return next({statusCode: 403, message: 'you dont have authority to change someone elses file'});
+        }
         FileData.remove({_id: req.params.id})
           .then(() => res.status(200).send('metadata successfully deleted'))
           .catch((err) => {
