@@ -54,10 +54,8 @@ userHandler.createUser = (req, res, next) => {
       user.save()
         .then(user => {
           let token = user.generateToken();
-
           res.cookie('auth', token);
           res.send({user,token});
-
           console.log('saved and got token');
         })
         .catch(err => {
