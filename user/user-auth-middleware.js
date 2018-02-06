@@ -91,10 +91,12 @@ userHandler.delete = (req,res,next) => {
 userHandler.put = (req,res,next) => {
   try {
     let id = req.decodedId;
+    console.log('id', req.decodedId);
+    console.log('req body', req.body);
 
-    User.findOne({id: id})
+    User.findOne({_id: id})
       .then( result => {
-        Object.assign(result, req.body);
+        Object.assign(result,req.body)
         return result.save();
       })
       .then( user => {

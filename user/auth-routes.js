@@ -41,7 +41,8 @@ authRouter.delete(
 );
 
 authRouter.put(
-  '',
+  '/update',
+  jsonParser,
   bearerAuth,
-  jsonParser
+  userHandler.put
 );
