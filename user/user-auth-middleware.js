@@ -1,6 +1,6 @@
 'use strict';
 const User = require(__dirname + '/model');
-const bearAuth = require('../lib/bearer-auth.js');
+
 
 let userHandler = module.exports = {};
 
@@ -38,7 +38,7 @@ userHandler.signIn = (req, res, next) => {
         next({statusCode: 401, message: user.message});
       }
       let token = user.generateToken();
-      res.cookie('auth', token);
+      res.cookie('auth', token, { maxAge: 10000000 });
       res.send({user,token});
     })
     .catch(err =>
@@ -54,9 +54,10 @@ userHandler.createUser = (req, res, next) => {
       user.save()
         .then(user => {
           let token = user.generateToken();
-          res.cookie('auth', token);
-          res.send({user,token});
           console.log('saved and got token');
+
+          res.cookie('auth', token, { maxAge: 10000000 });
+          res.send({user, token});
         })
         .catch(err => {
           next({statusCode: 400, message: `error saving user ${err.message}`});
@@ -70,7 +71,7 @@ userHandler.validate = (req, res, next) => {
   User.findOne({_id: req.user._id})
     .then(user => {
       let token = user.generateToken();
-      res.cookie('auth', token);
+      res.cookie('auth', token, { maxAge: 900000 });
       res.send({user,token});
     })
     .catch(next);
