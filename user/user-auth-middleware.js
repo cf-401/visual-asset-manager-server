@@ -1,6 +1,6 @@
 'use strict';
 const User = require(__dirname + '/model');
-
+const bearAuth = require('../lib/bearer-auth.js');
 
 let userHandler = module.exports = {};
 
@@ -38,7 +38,7 @@ userHandler.signIn = (req, res, next) => {
         next({statusCode: 401, message: user.message});
       }
       let token = user.generateToken();
-      res.cookie('auth', token, { maxAge: 10000000 });
+      res.cookie('auth', token);
       res.send({user,token});
     })
     .catch(err =>
@@ -54,7 +54,7 @@ userHandler.createUser = (req, res, next) => {
       user.save()
         .then(user => {
           let token = user.generateToken();
-          res.cookie('auth', token, { maxAge: 10000000 });
+          res.cookie('auth', token);
           res.send({user,token});
         })
         .catch(err => {
@@ -69,8 +69,40 @@ userHandler.validate = (req, res, next) => {
   User.findOne({_id: req.user._id})
     .then(user => {
       let token = user.generateToken();
-      res.cookie('auth', token, { maxAge: 900000 });
+      res.cookie('auth', token);
       res.send({user,token});
     })
     .catch(next);
+};
+
+userHandler.delete = (req,res,next) => {
+  try {
+    let id = req.decodedId;
+    console.log('req', req.decodedId);
+
+    User.remove({_id: id})
+      .then( () => res.send('user deleted'))
+      .catch( (err) => next(err));
+  }catch(err){
+    next(err.message);
+  }
+};
+
+userHandler.put = (req,res,next) => {
+  try {
+    let id = req.decodedId;
+
+    User.findOne({id: id})
+      .then( result => {
+        Object.assign(result, req.body);
+        return result.save();
+      })
+      .then( user => {
+        res.send(user);
+      })
+      .catch(err => next(err));
+  }
+  catch(error){
+    next(error.message);
+  }
 };

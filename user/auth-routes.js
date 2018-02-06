@@ -33,3 +33,15 @@ authRouter.get(
   userHandler.getUserById,
   userHandler.validate
 );
+
+authRouter.delete(
+  '',
+  bearerAuth,
+  userHandler.delete
+);
+
+authRouter.put(
+  '',
+  bearerAuth,
+  jsonParser
+);
