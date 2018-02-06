@@ -54,15 +54,11 @@ userHandler.createUser = (req, res, next) => {
       user.save()
         .then(user => {
           let token = user.generateToken();
-<<<<<<< HEAD
+
           res.cookie('auth', token);
           res.send({user,token});
-=======
-          console.log('saved and got token');
 
-          res.cookie('auth', token, { maxAge: 10000000 });
-          res.send({user, token});
->>>>>>> 6fbd02185a4371f4c2e9f9fe311f4f0445512739
+          console.log('saved and got token');
         })
         .catch(err => {
           next({statusCode: 400, message: `error saving user ${err.message}`});
