@@ -1,7 +1,6 @@
 'use strict';
 const User = require(__dirname + '/model');
 
-
 let userHandler = module.exports = {};
 
 userHandler.getUserByName = (req, res, next) => {
@@ -98,7 +97,7 @@ userHandler.put = (req,res,next) => {
 
     User.findOne({_id: id})
       .then( result => {
-        Object.assign(result,req.body)
+        Object.assign(result, req.body);
         return result.save();
       })
       .then( user => {
