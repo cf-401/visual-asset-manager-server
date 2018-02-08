@@ -47,7 +47,7 @@ userHandler.signIn = (req, res, next) => {
 userHandler.createUser = (req, res, next) => {
   const password = req.body.password;
   delete req.body.password;
-  console.log(req.body);
+  console.log('creating user', req.body);
   (new User(req.body)).generateHash(password)
     .then((user) => {
       user.save()
@@ -55,7 +55,7 @@ userHandler.createUser = (req, res, next) => {
           let token = user.generateToken();
           console.log('saved and got token');
 
-          res.cookie('auth', token, { maxAge: 10000000 });
+          res.cookie('auth', token, { maxAge: 10000000,  domain: '.vam.fun'});
           res.send({user, token});
         })
         .catch(err => {
@@ -70,7 +70,7 @@ userHandler.validate = (req, res, next) => {
   User.findOne({_id: req.user._id})
     .then(user => {
       let token = user.generateToken();
-      res.cookie('auth', token, { maxAge: 900000 });
+      res.cookie('auth', token, { maxAge: 900000, domain: '.vam.fun' });
       res.send({user,token});
     })
     .catch(next);
