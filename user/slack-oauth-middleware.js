@@ -4,6 +4,10 @@ const superagent = require('superagent');
 const slackTranform = require('../fileData/slack-to-file-data');
 const FileData = require('../fileData/model');
 const URL = process.env.CLIENT_URL;
+const cookieOptions = {
+  maxAge: 900000,
+  domain: process.env.NODE_ENV === 'production'? '.vam.fun' : null,
+};
 
 let slackHandler = module.exports = {};
 
@@ -43,10 +47,8 @@ slackHandler.lookupUserBySlackId = (req, res, next) => {
   User.findOne({slackId: req.slackUserData.slackId})
     .then(user => {
       if (!user) {
-        console.log('not user already');
         return next();
       }
-      console.log('slack user', user);
       req.user = user;
       next();
     })
@@ -91,8 +93,7 @@ slackHandler.getSlackFileData = (req, res) => {
               });
           })
         ).then(() => {
-          console.log(req.vamToken);
-          res.cookie('auth', req.vamToken, { maxAge: 10000000});
+          res.cookie('auth', req.vamToken, cookieOptions);
           res.redirect(URL);
         })
           .catch(err=> {

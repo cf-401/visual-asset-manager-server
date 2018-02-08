@@ -1,7 +1,6 @@
 'use strict';
 
 const jsonParser = require('body-parser').json();
-const superagent = require('superagent');
 const basicHttp = require(__dirname + '/../lib/basic-http');
 const userHandler = require('./user-auth-middleware');
 const slackHandler = require('./slack-oauth-middleware');
