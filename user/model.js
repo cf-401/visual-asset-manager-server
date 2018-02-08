@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   password : {type: String, require: true},
   email : {type: String, require: true, unique: true},
   assets : [{}],
+  aboutMe: {type: String},
 });
 
 userSchema.methods.generateHash = function(password) {

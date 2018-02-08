@@ -1,7 +1,6 @@
 'use strict';
 const User = require(__dirname + '/model');
 
-
 let userHandler = module.exports = {};
 
 userHandler.getUserByName = (req, res, next) => {
@@ -75,4 +74,38 @@ userHandler.validate = (req, res, next) => {
       res.send({user,token});
     })
     .catch(next);
+};
+
+userHandler.delete = (req,res,next) => {
+  try {
+    let id = req.decodedId;
+    console.log('req', req.decodedId);
+
+    User.remove({_id: id})
+      .then( () => res.send('user deleted'))
+      .catch( (err) => next(err));
+  }catch(err){
+    next(err.message);
+  }
+};
+
+userHandler.put = (req,res,next) => {
+  try {
+    let id = req.decodedId;
+    console.log('id', req.decodedId);
+    console.log('req body', req.body);
+
+    User.findOne({_id: id})
+      .then( result => {
+        Object.assign(result, req.body);
+        return result.save();
+      })
+      .then( user => {
+        res.send(user);
+      })
+      .catch(err => next(err));
+  }
+  catch(error){
+    next(error.message);
+  }
 };
