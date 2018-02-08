@@ -3,3 +3,4 @@
 **/*.min.js
 **/coverage/*
 **/build/*
+package-lock.json
