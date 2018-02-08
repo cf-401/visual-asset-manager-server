@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
   username: {type: String, required: true},
   group: {type: String},
   password : {type: String, require: true},
-  email : {type: String, require: true, unique: true},
+  slackId: {type: String},
+  email : {type: String},
   assets : [{}],
   aboutMe: {type: String},
 });

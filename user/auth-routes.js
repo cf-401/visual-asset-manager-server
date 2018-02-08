@@ -1,9 +1,10 @@
 'use strict';
 
 const jsonParser = require('body-parser').json();
-
+const superagent = require('superagent');
 const basicHttp = require(__dirname + '/../lib/basic-http');
 const userHandler = require('./user-auth-middleware');
+const slackHandler = require('./slack-oauth-middleware');
 const bearerAuth = require('../lib/bearer-auth');
 
 const authRouter = module.exports = require('express').Router();
@@ -44,4 +45,12 @@ authRouter.put(
   jsonParser,
   bearerAuth,
   userHandler.put
+);
+
+authRouter.get('/oauth/slack',
+  slackHandler.getSlackToken,
+  slackHandler.getUserFromSlack,
+  slackHandler.lookupUserBySlackId,
+  slackHandler.makeUserFromSlack,
+  slackHandler.getSlackFileData
 );
