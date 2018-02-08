@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meganrm/visual-asset-manager.git"
+    "url": "git+https://github.com/cf-401/visual-asset-manager-server.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/meganrm/visual-asset-manager/issues"
+    "url": "https://github.com/cf-401/visual-asset-manager-server/issues"
   },
-  "homepage": "https://github.com/meganrm/visual-asset-manager#readme",
+  "homepage": "https://github.com/cf-401/visual-asset-manager-server#readme",
   "dependencies": {
     "aws-sdk": "^2.188.0",
     "bcrypt": "^1.0.3",
