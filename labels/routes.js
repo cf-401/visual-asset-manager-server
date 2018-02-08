@@ -49,7 +49,7 @@ labelRouter.delete(
     console.log(req.params);
     Label.find({_id: req.params.id})
       .then( () => {
-        Labels.remove({_id: req.params.id})
+        Label.remove({_id: req.params.id})
           .then(() => res.status(200).send('label successfully deleted'))
           .catch((err) => {
             next(err, req.body);

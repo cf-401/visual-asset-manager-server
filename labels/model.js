@@ -4,7 +4,8 @@
 const mongoose = require('mongoose');
 
 const labelsSchema = new mongoose.Schema({
-  name: {type: String, required: true},
+  name: {type: String, required: true, unique: true},
+  color: {type: String},
 });
 
 labelsSchema.pre('find', function(){
