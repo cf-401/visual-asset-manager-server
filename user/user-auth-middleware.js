@@ -37,7 +37,7 @@ userHandler.signIn = (req, res, next) => {
         next({statusCode: 401, message: user.message});
       }
       let token = user.generateToken();
-      res.cookie('auth', token, { maxAge: 10000000 });
+      res.cookie('auth', token, { maxAge: 10000000, domain: '.vam.fun' });
       res.send({user,token});
     })
     .catch(err =>
