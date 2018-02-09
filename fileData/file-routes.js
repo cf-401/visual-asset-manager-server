@@ -104,9 +104,16 @@ fileRouter.delete(
   (req, res, next) => {
     FileData.find({_id: req.params.id})
       .then( (file) => {
-        let fileToDelete = file[0];
+        let fileToDelete = file;
+        if (Array.isArray(file)) {
+          fileToDelete = file[0];
+        }
+        if (!fileToDelete.userId) {
+          return next({statusCode: 403, message: 'file doesnt have a user'});
+        }
         const fileDataUser = fileToDelete.userId._id;
         const requestUser = req.user._id;
+        console.log(fileDataUser.toString(), requestUser.toString());
         if (fileDataUser.toString() !== requestUser.toString()) {
           return next({statusCode: 403, message: 'you dont have authority to change someone elses file'});
         }

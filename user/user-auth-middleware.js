@@ -2,6 +2,10 @@
 const User = require(__dirname + '/model');
 
 let userHandler = module.exports = {};
+const cookieOptions = {
+  maxAge: 900000,
+  domain: process.env.NODE_ENV === 'production'? '.vam.fun' : '/',
+};
 
 userHandler.getUserByName = (req, res, next) => {
 
@@ -16,13 +20,15 @@ userHandler.getUserByName = (req, res, next) => {
     .catch(next);
 };
 
-userHandler.getUserById = (req, res, next) => {
 
+
+userHandler.getUserById = (req, res, next) => {
   User.findOne({_id: req.decodedId})
     .then(user => {
       if (!user) {
         return next({statusCode: 400, message: 'no user'});
       }
+      console.log(user);
       req.user = user;
       next();
     })
@@ -37,7 +43,7 @@ userHandler.signIn = (req, res, next) => {
         next({statusCode: 401, message: user.message});
       }
       let token = user.generateToken();
-      res.cookie('auth', token, { maxAge: 10000000, domain: '.vam.fun' });
+      res.cookie('auth', token, cookieOptions);
       res.send({user,token});
     })
     .catch(err =>
@@ -55,7 +61,7 @@ userHandler.createUser = (req, res, next) => {
           let token = user.generateToken();
           console.log('saved and got token');
 
-          res.cookie('auth', token, { maxAge: 10000000,  domain: '.vam.fun'});
+          res.cookie('auth', token, cookieOptions);
           res.send({user, token});
         })
         .catch(err => {
@@ -70,7 +76,7 @@ userHandler.validate = (req, res, next) => {
   User.findOne({_id: req.user._id})
     .then(user => {
       let token = user.generateToken();
-      res.cookie('auth', token, { maxAge: 900000, domain: '.vam.fun' });
+      res.cookie('auth', token, cookieOptions);
       res.send({user,token});
     })
     .catch(next);
