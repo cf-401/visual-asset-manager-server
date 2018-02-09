@@ -9,7 +9,7 @@ const fileMetaDataSchema = new mongoose.Schema({
   userId : {type: mongoose.Schema.Types.ObjectId, ref:'User'},
   path : {type: String, required: true, unique: true},
   description : {type: String, required: true},
-  public: {type: Boolean, required: true},
+  public: {type: Boolean, default: false},
   labels : {type: mongoose.Schema.Types.Mixed},
 });
 
