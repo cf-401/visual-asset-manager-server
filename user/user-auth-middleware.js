@@ -4,7 +4,7 @@ const User = require(__dirname + '/model');
 let userHandler = module.exports = {};
 const cookieOptions = {
   maxAge: 900000,
-  domain: process.env.NODE_ENV === 'production'? '.vam.fun' : '/',
+  domain: process.env.NODE_ENV === 'production'? '.vam.fun' : null,
 };
 
 userHandler.getUserByName = (req, res, next) => {
@@ -43,8 +43,9 @@ userHandler.signIn = (req, res, next) => {
         next({statusCode: 401, message: user.message});
       }
       let token = user.generateToken();
+      console.log(token);
       res.cookie('auth', token, cookieOptions);
-      res.send({user,token});
+      res.send({user, token});
     })
     .catch(err =>
       next({statusCode: 403, message: err.message}));
