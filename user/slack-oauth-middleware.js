@@ -12,6 +12,7 @@ const cookieOptions = {
 let slackHandler = module.exports = {};
 
 slackHandler.getSlackToken = (req, res, next) => {
+  console.log(req.query.code);
   let code = req.query.code;
   superagent.get(`https://slack.com/api/oauth.access?client_id=${process.env.SLACK_CLIENT_ID}&client_secret=${process.env.SLACK_CLIENT_SECRET}&code=${code}`)
     .then((res) => {
@@ -60,9 +61,10 @@ slackHandler.makeUserFromSlack = (req, res, next) => {
     (new User(req.slackUserData)).generateHash(req.slackUserData.password)
       .then((user) => {
         user.save()
-          .then(user => {
-            let token = user.generateToken();
-            req.user = user;
+          .then(returnedUser => {
+            console.log(returnedUser);
+            let token = returnedUser.generateToken();
+            req.user = returnedUser;
             req.vamToken = token;
             return next();
           });
