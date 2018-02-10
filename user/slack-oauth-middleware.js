@@ -62,9 +62,9 @@ slackHandler.makeUserFromSlack = (req, res, next) => {
       .then((user) => {
         user.save()
           .then(returnedUser => {
-            console.log(returnedUser);
+            console.log(user);
             let token = returnedUser.generateToken();
-            req.user = returnedUser;
+            req.user = user;
             req.vamToken = token;
             return next();
           });
