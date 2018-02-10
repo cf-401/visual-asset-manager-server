@@ -89,6 +89,7 @@ slackHandler.getSlackFileData = (req, res) => {
             return acc;
           }, []).map((tosave) => {
             let newFileData = new FileData(tosave);
+            console.log(newFileData);
             return newFileData.save()
               .catch(() => {
                 console.log('dup');
